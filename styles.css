@@ -104,7 +104,20 @@ body {
     background-size: cover; /* Ensure the image covers the circle */
     background-position: center; /* Center the image */
     opacity: 90%;
+    animation: rotateCD 30s linear infinite;
+}
 
+.cd-player #cd-bar::after {
+    content: "";
+    position: absolute;
+    background-color: var(--background-color);
+    top: 50%; 
+    right: 0; 
+    transform: translate(-245%, -50%); 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    border: 5px solid var(--cd-bar-color); 
 }
 
 .player-buttons {
@@ -261,6 +274,14 @@ li:nth-child(1) {
         height: 190px;
     }
 
+    .cd-player #cd-bar::after {
+        transform: translate(-180%, -50%); 
+        width: 50px; 
+        height: 50px; 
+        border-radius: 50%; 
+        border: 5px solid var(--cd-bar-color); 
+    }
+
     .cd-player {
         width: 40%;
         height: 40%;
@@ -305,6 +326,16 @@ li:nth-child(1) {
 
 
 }
+
+/* CD Animation */
+@keyframes rotateCD {
+    from {
+      transform: translate(-10%, -50%) rotate(0deg); /* Start at 0 degrees */
+    }
+    to {
+      transform: translate(-10%, -50%) rotate(360deg); /* End at 360 degrees */
+    }
+  } 
 
 
 
