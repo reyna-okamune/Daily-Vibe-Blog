@@ -61,7 +61,6 @@ body {
    
 }
 
-
 .player-container {
     padding-top: 40px;
     background: #fff;
@@ -132,12 +131,12 @@ body {
 }
 
 .player-buttons .play-button {
-    font-size: 2.75rem;
+    font-size: 3rem;
 }
 
 .songs-container {
     width: 50%;
-    height: 90%;
+    height: 100%;
     border: 2px solid red;
 }
 
@@ -161,37 +160,57 @@ body {
     color: #666;
 }
 
+.playlist-icons {
+    width: 100%;
+    height: 5%;
+}
+
 .playlist-container {
     border: 2px solid purple;
-    height: 70%;
+    height: 65%;
+    overflow-y: auto;
+}
+
+.playlist-icons i {
+    display: flex;
+    justify-content: right;
+    padding: 10px;
+}
+
+.playlist-icons i:hover {
+    color: black;
+    cursor: pointer;
 }
 
 .playlist-menu {
     width: 100%;
     height: 5%;
-    display: flex;
-    justify-content: right;
-    padding: 0 20px;
 }
 
-.playlist-menu i {
-    font-size: 1.15rem;
-    cursor: pointer;
+.playlist-menu p:nth-child(3) {
+    font-size: 0.75rem;
 }
 
-.playlist-menu i:hover {
-    color: black;
+
+.playlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .playlist .song-item {
     padding: 10px 40px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 0.5fr;
     font-size: 1.05rem;
-    justify-content: space-between;
     text-align: left;
-    text-decoration: none;
     margin: 15px;
     font-weight: 700;
+}
+
+.playlist-song-name, .playlist-song-artist, .song-date-added {
+  display: flex;
+  align-items: center; 
 }
 
 .song-date-added {
@@ -205,6 +224,27 @@ li:nth-child(1) {
     color: black;
 
 }
+
+/* SCROLL BAR STYLING */
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 
 
 /*responsive media query when window is minimized to 1/2 size */
@@ -249,10 +289,11 @@ li:nth-child(1) {
         font-size: 0.75rem;
         padding: 10px 20px;
         margin: 10px;
+        grid-template-columns: 1.75fr 1.5fr 0.35fr;
     }
 
     .song-date-added {
-        font-size: 0.55rem;
+        font-size: 0.5rem;
     }
 
 
