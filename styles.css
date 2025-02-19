@@ -1,0 +1,169 @@
+:root {
+    /* color list */
+    --primary-color: #d7d6ce;
+    --secondary-color: #ffd1e8;
+    --highlight-color: #a41247;
+    --background-color: #1f1f1f;
+    --app-background-color: #ffffff; /* FIXME: change color */
+
+    /* font size list */
+    --root-font-size: 20px;
+    font-size: var(--root-font-size);
+
+    /* font family list */
+    --font-headline: "Quicksand", Verdana;
+    --font-family: "Quicksand", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    background-color: var(--app-background-color);
+    font-family: var(--font-family);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+
+}
+
+.container {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    background-color: #1f1f1f;
+}
+
+.main-header {
+    border: 2px solid green;
+    padding: 20px 0;
+    text-align: center;
+
+}
+
+.main-header h1 {
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 1.75rem;
+
+}
+
+.main-header h2 {
+    font-size: 0.70rem;
+    font-weight: 600;
+    line-height: 20px;
+   
+}
+
+
+.player-container {
+    padding-top: 40px;
+    background: #fff;
+    min-width: 10%;
+    width: 100%;
+    height: 60vh;
+    border: 2px solid blue;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center;
+}
+
+.cd-player {
+    width: 50%;
+    height: 31%;
+    position: relative;
+}
+
+.cd-player #cd-bar {
+    width:100%; 
+    height: 100%;
+    border: 10px solid red;
+    background-color: red;
+    border-top-right-radius: 160px;
+    border-bottom-right-radius: 160px;
+    position: relative;
+}
+
+
+.cd-player #cd-bar::before {
+    content: "";
+    position: absolute;
+    background-color: white;
+    top: 50%; 
+    right: 0; 
+    transform: translate(-5%, -50%); 
+    width: 120px; 
+    height: 120px; 
+    border-radius: 50%;
+    background-image: url('SZA_SOS.png'); /* FIXME: hardcoded image for now */
+    background-size: cover; /* Ensure the image covers the circle */
+    background-position: center; /* Center the image */
+    opacity: 90%;
+
+}
+
+.player-buttons {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+    top: 50%; 
+    left: 20%; 
+    transform: translateY(-50%); 
+}
+
+.player-buttons button {
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: none;
+    background-color: transparent;
+}
+
+.player-buttons button:hover {
+    transform: scale(1.2);
+}
+
+
+.player-buttons .play-button {
+    font-size: 15px;
+    width: 50px; /* Set equal width */
+    height: 50px; /* Set equal height */
+    margin: 10px 0;
+    background-color: rgb(146, 190, 255);
+    border-radius: 50%; 
+    border: 2px solid pink;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.song-info {
+    text-align: left;
+    width: 50%;
+    height: 31%;
+    padding-top: 10px;
+    margin-left: 30px;
+}
+
+.song-info .song-title {
+    font-size: 2.15rem;
+    color: #333;
+    padding-bottom: 5px;
+  }
+  
+.song-info .song-artist {
+    font-size: 1rem;
+    color: #666;
+}
+
+
