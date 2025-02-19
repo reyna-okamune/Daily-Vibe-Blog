@@ -43,20 +43,19 @@ body {
 
 .main-header {
     border: 2px solid green;
-    padding: 20px 0;
+    padding: 25px 0;
     text-align: center;
-
 }
 
 .main-header h1 {
     margin-bottom: 15px;
     font-weight: 700;
-    font-size: 1.75rem;
+    font-size: 2.75rem;
 
 }
 
 .main-header h2 {
-    font-size: 0.70rem;
+    font-size: 0.75rem;
     font-weight: 600;
     line-height: 20px;
    
@@ -66,27 +65,26 @@ body {
 .player-container {
     padding-top: 40px;
     background: #fff;
-    min-width: 10%;
     width: 100%;
-    height: 60vh;
+    height: 70vh;
     border: 2px solid blue;
     display: flex;
     justify-content: flex-start;
     gap: 40px;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .cd-player {
-    width: 50%;
-    height: 31%;
+    width: 40%;
+    height: 50%;
     position: relative;
+    align-self: center;
 }
 
 .cd-player #cd-bar {
     width:100%; 
     height: 100%;
-    border: 10px solid red;
-    background-color: red;
+    background-color: rgb(238, 159, 221);
     border-top-right-radius: 160px;
     border-bottom-right-radius: 160px;
     position: relative;
@@ -99,9 +97,9 @@ body {
     background-color: white;
     top: 50%; 
     right: 0; 
-    transform: translate(-5%, -50%); 
-    width: 120px; 
-    height: 120px; 
+    transform: translate(-10%, -50%); 
+    width: 245px; 
+    height: 245px; 
     border-radius: 50%;
     background-image: url('SZA_SOS.png'); /* FIXME: hardcoded image for now */
     background-size: cover; /* Ensure the image covers the circle */
@@ -114,16 +112,15 @@ body {
     position: absolute;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    justify-content: space-between;
+    gap: 30px;
     align-items: center;
     top: 50%; 
-    left: 20%; 
+    left: 30%;
     transform: translateY(-50%); 
 }
 
 .player-buttons button {
-    font-size: 15px;
+    font-size: 1.05rem;
     cursor: pointer;
     transition: transform 0.2s ease;
     border: none;
@@ -131,39 +128,135 @@ body {
 }
 
 .player-buttons button:hover {
-    transform: scale(1.2);
+    transform: scale(1.25);
 }
 
-
 .player-buttons .play-button {
-    font-size: 15px;
-    width: 50px; /* Set equal width */
-    height: 50px; /* Set equal height */
-    margin: 10px 0;
-    background-color: rgb(146, 190, 255);
-    border-radius: 50%; 
-    border: 2px solid pink;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    font-size: 2.75rem;
+}
+
+.songs-container {
+    width: 50%;
+    height: 90%;
+    border: 2px solid red;
 }
 
 .song-info {
+    padding-top: 2%;
+    padding-left: 5%;
     text-align: left;
-    width: 50%;
-    height: 31%;
-    padding-top: 10px;
-    margin-left: 30px;
+    height: 25%;
+    border: 2px solid orange;
+   
 }
 
 .song-info .song-title {
-    font-size: 2.15rem;
+    font-size: 2.5rem;
     color: #333;
     padding-bottom: 5px;
   }
   
 .song-info .song-artist {
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: #666;
 }
+
+.playlist-container {
+    border: 2px solid purple;
+    height: 70%;
+}
+
+.playlist-menu {
+    width: 100%;
+    height: 5%;
+    display: flex;
+    justify-content: right;
+    padding: 0 20px;
+}
+
+.playlist-menu i {
+    font-size: 1.15rem;
+    cursor: pointer;
+}
+
+.playlist-menu i:hover {
+    color: black;
+}
+
+.playlist .song-item {
+    padding: 10px 40px;
+    display: flex;
+    font-size: 1.05rem;
+    justify-content: space-between;
+    text-align: left;
+    text-decoration: none;
+    margin: 15px;
+    font-weight: 700;
+}
+
+.song-date-added {
+    font-size: 0.75rem;
+    padding-top: 5px; /* FIXME: adjust so text is centered */
+}
+
+
+/* FIXME: Hard Coded Highlight for current song */
+li:nth-child(1) {
+    color: black;
+
+}
+
+
+/*responsive media query when window is minimized to 1/2 size */
+@media (max-width: 800px) {
+    .cd-player #cd-bar::before {
+        width:190px; 
+        height: 190px;
+    }
+
+    .cd-player {
+        width: 40%;
+        height: 40%;
+    }
+
+    .player-buttons {
+        left: 10%;
+        top: 51%;
+        gap: 30px;
+    }
+
+    .player-buttons button {
+        font-size: 0.75rem;
+    }
+
+    .player-buttons .play-button {
+        font-size: 2rem;
+    }
+
+    .song-info .song-title {
+        font-size: 2rem;
+    }
+
+    .song-info .song-artist {
+        font-size: 1rem;
+    }
+    .playlist-menu i {
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .playlist .song-item {
+        font-size: 0.75rem;
+        padding: 10px 20px;
+        margin: 10px;
+    }
+
+    .song-date-added {
+        font-size: 0.55rem;
+    }
+
+
+}
+
 
 
