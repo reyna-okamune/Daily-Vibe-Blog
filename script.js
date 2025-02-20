@@ -13,6 +13,10 @@ document.querySelector('.current-date').textContent = currentDate;
 // playlist 
 const playButton = document.getElementById("play-button");
 
+const addIcon = document.querySelector(".fa-plus");
+const popupContainer = document.querySelector(".popup-container");
+const addSongForm = document.querySelector(".add-song-form");
+
 const allSongs = [
     {
         id: 0,
@@ -49,6 +53,7 @@ let userData = {
   songCurrentTime: 0,
   isPlaying: false
 };
+
 
 // render songs 
 const renderSongs = () => {
@@ -104,7 +109,7 @@ const setPlayerDisplay = () => {
 
     playingSong.textContent = currentTitle ? currentTitle : "Song Name";
     playingArtist.textContent = currentArtist ? currentArtist : "Artist Name";
-    playingCD.classList.add("paused");
+    playingCD.classList.add("paused"); // ensure cd does not rotate until user starts song
     if (albumCover) {
         playingCD.style.setProperty("--album-cover", `url('${albumCover}')`);
     } else {
@@ -115,7 +120,6 @@ const setPlayerDisplay = () => {
 
 // highlight current playing song 
 const highlightCurrentSong = () => {
-
 }
 
 // toggling between pause and play function
@@ -136,8 +140,57 @@ const togglePlayPause = () => {
     }
 }
 
-// event listeners
+/* event listeners */
+
+
 playButton.addEventListener("click", () => togglePlayPause());
+
+// Show Pop Up Add Form when Add Icon Clicked
+addIcon.addEventListener("click", () => {
+    popupContainer.style.display = "flex";
+});
+
+// Hide Pop Up Icon If Mouse Clicked Outside Form
+popupContainer.addEventListener("click", (e) => {
+    if(e.target === popupContainer) {
+        popupContainer.style.display = "none";
+    }
+});
+
+// Handle Add Song Form Submission
+addSongForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // prevent page refresh
+
+    // input values
+    const titleInput = document.getElementById("song-title");
+    const artistInput = document.getElementById("song-artist");
+    const durationInput = document.getElementById("song-duration");
+
+    // creating new song object
+    const newSong = {
+        id: allSongs.length, 
+        title: titleInput.value,
+        artist: artistInput.value,
+        duration: durationInput.value,
+        img: "album-covers/empty_album_cover.png", 
+        src: "" 
+    };
+
+    // Add the new song to the allSongs array
+    allSongs.push(newSong);
+
+    // Re-render the playlist
+    renderSongs();
+
+    // Clear the form inputs
+    titleInput.value = "";
+    artistInput.value = "";
+    durationInput.value = "";
+
+    // Hide the pop-up
+    popupContainer.style.display = "none";
+});
+
 
 // function calls
 setPlayerDisplay();
