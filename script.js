@@ -45,7 +45,7 @@ const audio = new Audio();
 
 let userData = {
   songs: [...allSongs],
-  currentSong: allSongs[0],
+  currentSong: null,
   songCurrentTime: 0,
   isPlaying: false
 };
@@ -55,28 +55,41 @@ const renderSongs = () => {
     const playlist = document.querySelector(".playlist");
     playlist.innerHTML = "";
 
-    allSongs.forEach((song) => {
-        const songItem = document.createElement("li");
-        songItem.classList.add("song-item");
+    // add filler text if no songs yet in playlist
+    if (allSongs.length === 0) {
+        const noSongItem = document.createElement("li");
+        noSongItem.classList.add("song-item");
 
-        const songName = document.createElement("p");
-        songName.classList.add("playlist-song-name");
-        songName.textContent = song.title;
+        const noSongMessage = document.createElement("p");
+        noSongMessage.classList.add("playlist-song-name");
+        noSongMessage.textContent = "No song added yet!";
 
-        const songArtist = document.createElement("p");
-        songArtist.classList.add("playlist-song-artist");
-        songArtist.textContent = song.artist;
+        noSongItem.appendChild(noSongMessage);
+        playlist.appendChild(noSongItem);
+    } else {
+        allSongs.forEach((song) => {
+            const songItem = document.createElement("li");
+            songItem.classList.add("song-item");
 
-        const songDuration = document.createElement("p");
-        songDuration.classList.add("duration");
-        songDuration.textContent = song.duration;
+            const songName = document.createElement("p");
+            songName.classList.add("playlist-song-name");
+            songName.textContent = song.title;
 
-        songItem.appendChild(songName);
-        songItem.appendChild(songArtist);
-        songItem.appendChild(songDuration);
+            const songArtist = document.createElement("p");
+            songArtist.classList.add("playlist-song-artist");
+            songArtist.textContent = song.artist;
 
-        playlist.appendChild(songItem);
-    });
+            const songDuration = document.createElement("p");
+            songDuration.classList.add("duration");
+            songDuration.textContent = song.duration;
+
+            songItem.appendChild(songName);
+            songItem.appendChild(songArtist);
+            songItem.appendChild(songDuration);
+
+            playlist.appendChild(songItem);
+        }) 
+    };
 }
 
 // for current playing song
