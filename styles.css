@@ -120,6 +120,11 @@ body {
     animation: rotateCD 30s linear infinite;
 }
 
+/* cd pause state */
+.cd-player #cd-bar.paused::before {
+    animation-play-state: paused;
+}
+
 .cd-player #cd-bar::after {
     content: "";
     position: absolute;
@@ -351,6 +356,8 @@ li:nth-child(1) {
       transform: translate(-10%, -50%) rotate(360deg); /* End at 360 degrees */
     }
   } 
+
+
 
 
 

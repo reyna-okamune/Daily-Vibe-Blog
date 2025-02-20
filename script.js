@@ -45,7 +45,7 @@ const audio = new Audio();
 
 let userData = {
   songs: [...allSongs],
-  currentSong: null,
+  currentSong: allSongs[1],
   songCurrentTime: 0,
   isPlaying: false
 };
@@ -104,6 +104,7 @@ const setPlayerDisplay = () => {
 
     playingSong.textContent = currentTitle ? currentTitle : "Song Name";
     playingArtist.textContent = currentArtist ? currentArtist : "Artist Name";
+    playingCD.classList.add("paused");
     if (albumCover) {
         playingCD.style.setProperty("--album-cover", `url('${albumCover}')`);
     } else {
@@ -112,23 +113,31 @@ const setPlayerDisplay = () => {
 
 }
 
+// highlight current playing song 
+const highlightCurrentSong = () => {
+
+}
+
 // toggling between pause and play function
 const togglePlayPause = () => {
+    const cdBar = document.querySelector("#cd-bar");
+    
     // when audio is paused 
     if (userData.isPlaying === false) {
         // audio.play();
         playButton.innerHTML = '<i class="fa-solid fa-circle-play"></i>';
+        cdBar.classList.add("paused"); // pause cd rotation 
         userData.isPlaying = true;
     } else { 
         // audio.pause();
         playButton.innerHTML = '<i class="fa-solid fa-circle-pause"></i>';
+        cdBar.classList.remove("paused"); // resume cd rotation
         userData.isPlaying = false;
     }
 }
 
 // event listeners
 playButton.addEventListener("click", () => togglePlayPause());
-
 
 // function calls
 setPlayerDisplay();
