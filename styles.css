@@ -113,7 +113,7 @@ body {
     width: 245px; 
     height: 245px; 
     border-radius: 50%;
-    background-image: url('SZA_SOS.png'); /* FIXME: hardcoded image for now */
+    background-image: var(--album-cover, url('album-covers/empty_album_cover.png')); 
     background-size: cover; /* Ensure the image covers the circle */
     background-position: center; /* Center the image */
     opacity: 90%;
@@ -237,7 +237,7 @@ body {
     font-weight: 700;
 }
 
-.playlist-song-name, .playlist-song-artist, .song-date-added {
+.playlist-song-name, .playlist-song-artist, .duration {
   display: flex;
   align-items: center; 
 }
@@ -246,7 +246,7 @@ body {
     color: var(--primary-color);
 }
 
-.song-date-added {
+.duration {
     font-size: 0.75rem;
     padding-top: 5px; /* FIXME: adjust so text is centered */
     color: var(--header-color);
@@ -283,7 +283,7 @@ li:nth-child(1) {
 
 
 /*responsive media query when window is minimized to 1/2 size */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .cd-player #cd-bar::before {
         width:190px; 
         height: 190px;
@@ -335,7 +335,7 @@ li:nth-child(1) {
         grid-template-columns: 1.75fr 1.5fr 0.35fr;
     }
 
-    .song-date-added {
+    .duration {
         font-size: 0.5rem;
     }
 
