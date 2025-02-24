@@ -1,5 +1,40 @@
 // SPOTIFY API 
 
+let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
+    {
+        id: 0,
+        title: "Conceited",
+        artist: "SZA",
+        img: "album-covers/SZA_SOS.png",
+        // src: "mp3-files/groovy-ambient-funk-201745.mp3",
+        dateAdded: "2/14/2025"
+    },
+    {
+        id: 1,
+        title: "Boy's a Liar",
+        artist: "Pinkpantheress",
+        img: "album-covers/Pinkpantheress_Boys_A_Liar.jpg",
+        // src: "mp3-files/once-in-paris-168895.mp3",
+        dateAdded: "2/15/2025"
+
+    },
+    {
+        id: 2,
+        title: "Close To You",
+        artist: "Gracie Abrams",
+        img: "album-covers/Gracie_Abrams_Close_To_You.jpg",
+        // src: "mp3-files/order-99518.mp3",
+        dateAdded: "2/16/2025"
+    }
+];
+let userData = {
+    songs: [...allSongs],
+    currentSong: allSongs[1],
+    songCurrentTime: 0,
+    isPlaying: false
+  };
+
+
 // spotify access token
 const getAccessToken = async () => {
     const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -61,7 +96,7 @@ function displayResults(tracks) {
         icon.addEventListener("click", () => {
             const trackId = icon.getAttribute('data-track-id');
             const selectedTrack = tracks.find(track => track.id === trackId);
-            console.log("button pressed");
+            // console.log("button pressed");
             if (selectedTrack) {
                 const newSong = {
                     id: allSongs.length, 
@@ -73,6 +108,9 @@ function displayResults(tracks) {
                 
                 allSongs.push(newSong);
                 renderSongs();
+
+                // save songs to local storage
+                localStorage.setItem("allSongs", JSON.stringify(allSongs));
 
                 // close pop up after song clicked
                 const popupContainer = document.querySelector(".popup-container");
@@ -131,42 +169,8 @@ const addIcon = document.getElementById("add-button");
 const popupContainer = document.querySelector(".popup-container");
 const addSongForm = document.querySelector(".add-song-form");
 
-const allSongs = [
-    {
-        id: 0,
-        title: "Conceited",
-        artist: "SZA",
-        img: "album-covers/SZA_SOS.png",
-        // src: "mp3-files/groovy-ambient-funk-201745.mp3",
-        dateAdded: "2/14/2025"
-    },
-    {
-        id: 1,
-        title: "Boy's a Liar",
-        artist: "Pinkpantheress",
-        img: "album-covers/Pinkpantheress_Boys_A_Liar.jpg",
-        // src: "mp3-files/once-in-paris-168895.mp3",
-        dateAdded: "2/15/2025"
-
-    },
-    {
-        id: 3,
-        title: "Close To You",
-        artist: "Gracie Abrams",
-        img: "album-covers/Gracie_Abrams_Close_To_You.jpg",
-        // src: "mp3-files/order-99518.mp3",
-        dateAdded: "2/16/2025"
-    }
-]
 
 const audio = new Audio();
-
-let userData = {
-  songs: [...allSongs],
-  currentSong: allSongs[1],
-  songCurrentTime: 0,
-  isPlaying: false
-};
 
 
 // render songs 
