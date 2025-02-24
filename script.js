@@ -1,5 +1,7 @@
 // SPOTIFY API 
 
+
+
 let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
     {
         id: 0,
