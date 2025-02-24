@@ -1,3 +1,117 @@
+// SPOTIFY API 
+
+// spotify access token
+const getAccessToken = async () => {
+    const response = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
+        },
+        body: "grant_type=client_credentials",
+    });
+
+    const data = await response.json();
+    return data.access_token;
+};
+
+// spotify search query 
+const searchSongs = async (query) => {
+    const accessToken = await getAccessToken();
+
+    const response = await fetch(
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=5`,
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+
+    const data = await response.json();
+    return data.tracks.items; 
+}
+
+// display spotify search results 
+function displayResults(tracks) {
+    const resultContainer = document.getElementById("results-container");
+    resultContainer.innerHTML = "";
+
+    if (tracks.length === 0) {
+        resultContainer.innerHTML = '<p>No results found.</p>';
+        return;
+    }
+
+    tracks.forEach(track => {
+        const trackElement = document.createElement('div');
+        trackElement.classList.add('track');
+
+        trackElement.innerHTML = `
+            <i class="fa-solid fa-plus add-song-icon" data-track-id="${track.id}"></i>
+            <img class="cover" src="${track.album.images[0].url}" alt="${track.album.name}" width="100">
+            <p class="title">${track.name} by ${track.artists[0].name}</p>
+        `;
+
+        resultContainer.appendChild(trackElement);
+    });
+
+    // Handle Add Button Click Within Displayed Results in Popup-Container
+    const addSongIcons = document.querySelectorAll(".add-song-icon"); // icon to add track element within search display option
+    addSongIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            const trackId = icon.getAttribute('data-track-id');
+            const selectedTrack = tracks.find(track => track.id === trackId);
+            console.log("button pressed");
+            if (selectedTrack) {
+                const newSong = {
+                    id: allSongs.length, 
+                    title: selectedTrack.name,
+                    artist: selectedTrack.artists[0].name,
+                    img: selectedTrack.album.images[0].url,
+                    dateAdded: playlistDate
+                };
+                
+                allSongs.push(newSong);
+                renderSongs();
+
+                // close pop up after song clicked
+                const popupContainer = document.querySelector(".popup-container");
+                popupContainer.style.display = "none";
+            }
+        })
+    });
+}
+
+const searchButton = document.getElementById("search-button");
+searchButton.addEventListener("click", async (e) => {
+    e.preventDefault(); // Prevent form submission or page refresh
+
+    const searchInput = document.querySelector(".song-input").value.trim();
+    const resultContainer = document.getElementById("results-container");
+
+    if (searchInput) {
+        try {
+            // Show loading message
+            resultContainer.innerHTML = "<p>Loading...</p>";
+
+            // Fetch tracks from Spotify API
+            const tracks = await searchSongs(searchInput);
+
+            // Display results
+            displayResults(tracks);
+
+            // Clear input field after search
+            document.querySelector(".song-input").value = "";
+        } catch (error) {
+            console.error("Error searching for song:", error);
+            resultContainer.innerHTML = "<p>An error occurred while searching.</p>";
+        }
+    } else {
+        alert("Please enter a song name.");
+    }
+});
+
+
 // date tracker for header and playlist column
 const date = new Date();
 let day = date.getDate();
@@ -8,12 +122,12 @@ const monthNames = [
     "July", "August", "September", "October", "November", "December"
 ];
 let currentDate = `${monthNames[month - 1]} ${day}, ${year}`;
+let playlistDate = `${month}/${day}/${year}`;
 document.querySelector('.current-date').textContent = currentDate;
 
 // playlist 
 const playButton = document.getElementById("play-button");
-
-const addIcon = document.querySelector(".fa-plus");
+const addIcon = document.getElementById("add-button");
 const popupContainer = document.querySelector(".popup-container");
 const addSongForm = document.querySelector(".add-song-form");
 
@@ -23,16 +137,16 @@ const allSongs = [
         title: "Conceited",
         artist: "SZA",
         img: "album-covers/SZA_SOS.png",
-        src: "mp3-files/groovy-ambient-funk-201745.mp3",
-        duration: "2:16"
+        // src: "mp3-files/groovy-ambient-funk-201745.mp3",
+        dateAdded: "2/14/2025"
     },
     {
         id: 1,
         title: "Boy's a Liar",
         artist: "Pinkpantheress",
         img: "album-covers/Pinkpantheress_Boys_A_Liar.jpg",
-        src: "mp3-files/once-in-paris-168895.mp3",
-        duration: "2:12"
+        // src: "mp3-files/once-in-paris-168895.mp3",
+        dateAdded: "2/15/2025"
 
     },
     {
@@ -40,8 +154,8 @@ const allSongs = [
         title: "Close To You",
         artist: "Gracie Abrams",
         img: "album-covers/Gracie_Abrams_Close_To_You.jpg",
-        src: "mp3-files/order-99518.mp3",
-        duration: "1:44"
+        // src: "mp3-files/order-99518.mp3",
+        dateAdded: "2/16/2025"
     }
 ]
 
@@ -84,13 +198,13 @@ const renderSongs = () => {
             songArtist.classList.add("playlist-song-artist");
             songArtist.textContent = song.artist;
 
-            const songDuration = document.createElement("p");
-            songDuration.classList.add("duration");
-            songDuration.textContent = song.duration;
+            const songDateAdded = document.createElement("p");
+            songDateAdded.classList.add("date-added");
+            songDateAdded.textContent = song.dateAdded;
 
             songItem.appendChild(songName);
             songItem.appendChild(songArtist);
-            songItem.appendChild(songDuration);
+            songItem.appendChild(songDateAdded);
 
             playlist.appendChild(songItem);
         }) 
@@ -160,36 +274,10 @@ popupContainer.addEventListener("click", (e) => {
 // Handle Add Song Form Submission
 addSongForm.addEventListener("submit", (e) => {
     e.preventDefault(); // prevent page refresh
-
-    // input values
-    const titleInput = document.getElementById("song-title");
-    const artistInput = document.getElementById("song-artist");
-    const durationInput = document.getElementById("song-duration");
-
-    // creating new song object
-    const newSong = {
-        id: allSongs.length, 
-        title: titleInput.value,
-        artist: artistInput.value,
-        duration: durationInput.value,
-        img: "album-covers/empty_album_cover.png", 
-        src: "" 
-    };
-
-    // Add the new song to the allSongs array
-    allSongs.push(newSong);
-
-    // Re-render the playlist
-    renderSongs();
-
-    // Clear the form inputs
-    titleInput.value = "";
-    artistInput.value = "";
-    durationInput.value = "";
-
     // Hide the pop-up
     popupContainer.style.display = "none";
 });
+
 
 
 // function calls
