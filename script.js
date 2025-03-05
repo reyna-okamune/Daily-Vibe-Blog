@@ -1,5 +1,3 @@
-
-
 let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
     {
         id: 0,
@@ -55,7 +53,6 @@ document.querySelector('.current-date').textContent = currentDate;
 const playButton = document.getElementById("play-button");
 const addIcon = document.getElementById("add-button");
 const popupContainer = document.querySelector(".popup-container");
-const addSongForm = document.querySelector(".add-song-form");
 
 
 // render songs 
@@ -161,12 +158,37 @@ popupContainer.addEventListener("click", (e) => {
 });
 
 // Handle Add Song Form Submission
-addSongForm.addEventListener("submit", (e) => {
+const addSongForm = document.getElementById("add-song-form");
+const placeholderImage = "album-covers/empty_album_cover.png";
+
+/* addSongForm.addEventListener("submit", (e) => {
     e.preventDefault(); // prevent page refresh
     // Hide the pop-up
     popupContainer.style.display = "none";
-});
+}); */
 
+// Image Upload Preview Handler
+const imageInput = document.getElementById("song-img-input");
+const previewImage = document.getElementById("preview-image");
+
+imageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+        console.log("File selected:", file.name); 
+        const reader = new FileReader(); // creating file reader to read file
+
+        reader.onload = function (e) {
+            console.log("File loaded:", e.target.result);
+            previewImage.src = e.target.result; // set the preview image source to the uploaded file
+        };
+
+        reader.readAsDataURL(file);
+    } else {
+        console.log("No file selected.");
+        previewImage.src = "album-covers/empty_album_cover.png";
+    }
+});
 
 
 // function calls

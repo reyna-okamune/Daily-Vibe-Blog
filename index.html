@@ -54,11 +54,22 @@
                     <div class="popup-container">
                         <form class="add-song-form">
                             <p class="title">What Tune Matches Your Vibe ?</p>
-                            <div class="search-container">
-                                <input id="song-input" class="song-input" placeholder="Type Song Here"></input>
-                                <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-                            </div>
-                            <div id="results-container"></div>
+                            <form id="add-song-form">
+                                <label for="song-name-input">Song Title: <input type="text"  id="song-name-input" name="song-name-input" placeholder="Love Me Not" required/></label>
+                                <label for="song-artist-input">Song Artist: <input type="text" id="song-artist-input" name="song-artist-input" placeholder="Ravyn Lenae" required/></label>
+                                <label for="song-img-input">Song Cover: <input type="file" id="song-img-input" name="song-img-input" accept="image/png, image/jpeg"/></label>
+                                <div id="image-preview">
+                                    <img src="album-covers/empty_album_cover.png" alt="Song Cover Preview" id="preview-image" />
+                                </div>
+                                <label>Mood: 
+                                    <select id="mood-input" name="mood-input">
+                                    <option value="happy">😊 Happy</option>
+                                    <option value="sad">😢 Sad</option>
+                                    <option value="energetic">💪 Energetic</option>
+                                </select>
+                                </label>
+                                <input type="submit" value="Submit">
+                            </form>
                         </form>
                     </div>
                 </div>
