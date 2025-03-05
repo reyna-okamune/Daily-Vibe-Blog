@@ -1,5 +1,3 @@
-// SPOTIFY API 
-
 
 
 let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
@@ -29,6 +27,8 @@ let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
         dateAdded: "2/16/2025"
     }
 ];
+
+
 let userData = {
     songs: [...allSongs],
     currentSong: allSongs[1],
@@ -36,120 +36,6 @@ let userData = {
     isPlaying: false
   };
 
-
-// spotify access token
-const getAccessToken = async () => {
-    const response = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
-        },
-        body: "grant_type=client_credentials",
-    });
-
-    const data = await response.json();
-    return data.access_token;
-};
-
-// spotify search query 
-const searchSongs = async (query) => {
-    const accessToken = await getAccessToken();
-
-    const response = await fetch(
-        `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=5`,
-        {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        }
-    );
-
-    const data = await response.json();
-    return data.tracks.items; 
-}
-
-// display spotify search results 
-function displayResults(tracks) {
-    const resultContainer = document.getElementById("results-container");
-    resultContainer.innerHTML = "";
-
-    if (tracks.length === 0) {
-        resultContainer.innerHTML = '<p>No results found.</p>';
-        return;
-    }
-
-    tracks.forEach(track => {
-        const trackElement = document.createElement('div');
-        trackElement.classList.add('track');
-
-        trackElement.innerHTML = `
-            <i class="fa-solid fa-plus add-song-icon" data-track-id="${track.id}"></i>
-            <img class="cover" src="${track.album.images[0].url}" alt="${track.album.name}" width="100">
-            <p class="title">${track.name} by ${track.artists[0].name}</p>
-        `;
-
-        resultContainer.appendChild(trackElement);
-    });
-
-    // Handle Add Button Click Within Displayed Results in Popup-Container
-    const addSongIcons = document.querySelectorAll(".add-song-icon"); // icon to add track element within search display option
-    addSongIcons.forEach(icon => {
-        icon.addEventListener("click", () => {
-            const trackId = icon.getAttribute('data-track-id');
-            const selectedTrack = tracks.find(track => track.id === trackId);
-            // console.log("button pressed");
-            if (selectedTrack) {
-                const newSong = {
-                    id: allSongs.length, 
-                    title: selectedTrack.name,
-                    artist: selectedTrack.artists[0].name,
-                    img: selectedTrack.album.images[0].url,
-                    dateAdded: playlistDate
-                };
-                
-                allSongs.push(newSong);
-                renderSongs();
-
-                // save songs to local storage
-                localStorage.setItem("allSongs", JSON.stringify(allSongs));
-
-                // close pop up after song clicked
-                const popupContainer = document.querySelector(".popup-container");
-                popupContainer.style.display = "none";
-            }
-        })
-    });
-}
-
-const searchButton = document.getElementById("search-button");
-searchButton.addEventListener("click", async (e) => {
-    e.preventDefault(); // Prevent form submission or page refresh
-
-    const searchInput = document.querySelector(".song-input").value.trim();
-    const resultContainer = document.getElementById("results-container");
-
-    if (searchInput) {
-        try {
-            // Show loading message
-            resultContainer.innerHTML = "<p>Loading...</p>";
-
-            // Fetch tracks from Spotify API
-            const tracks = await searchSongs(searchInput);
-
-            // Display results
-            displayResults(tracks);
-
-            // Clear input field after search
-            document.querySelector(".song-input").value = "";
-        } catch (error) {
-            console.error("Error searching for song:", error);
-            resultContainer.innerHTML = "<p>An error occurred while searching.</p>";
-        }
-    } else {
-        alert("Please enter a song name.");
-    }
-});
 
 
 // date tracker for header and playlist column
@@ -170,9 +56,6 @@ const playButton = document.getElementById("play-button");
 const addIcon = document.getElementById("add-button");
 const popupContainer = document.querySelector(".popup-container");
 const addSongForm = document.querySelector(".add-song-form");
-
-
-const audio = new Audio();
 
 
 // render songs 
