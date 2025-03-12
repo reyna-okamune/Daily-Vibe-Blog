@@ -81,6 +81,7 @@ body {
     width: 100%;
     height: 70vh;
     display: flex;
+    flex-direction: row;
     justify-content: flex-start;
     gap: 40px;
     align-items: flex-start;
@@ -314,7 +315,7 @@ li:nth-child(1) {
 }
 
 .popup-box .title {
-    color: var(--primary-color);
+    color: var(--header-color);
     font-weight: 600;
     font-size: 1.25rem;
     padding-top: 50px;
@@ -333,7 +334,7 @@ li:nth-child(1) {
 
 .popup-box input[type=text], #mood-input {
     border: none;
-    border-bottom: 2px solid rgba(249, 68, 126, 0.5);
+    border-bottom: 2px solid var(--cd-bar-color);
     padding: 10px 10px;
     font-weight: 700;
     font-size: 0.8rem;
@@ -347,7 +348,7 @@ li:nth-child(1) {
 .popup-box input:focus, .mood-input:focus {
     outline: none;
     border: none;
-    border-bottom: 3px solid var(--primary-color);
+    border-bottom: 3px solid var(--cd-bar-color);
 }
 
 
@@ -385,12 +386,12 @@ li:nth-child(1) {
     font-family: var(--font-family);
     font-size: 1rem;
     font-weight: 600;
-    color: rgba(249, 68, 126, 0.5);
+    color: var(--cd-bar-color);
     padding: 20px 0;
 }
 
 #add-song-form input[type=submit]:hover {
-    color: var(--primary-color);
+    color: var(--header-color);
 }
 
 
@@ -433,10 +434,10 @@ li:nth-child(1) {
     }
 
     .song-info .song-artist {
-        font-size: 1rem;
+        font-size: 0.5rem;
     }
     .playlist-menu i {
-        font-size: 1rem;
+        font-size: 0.5rem;
         cursor: pointer;
     }
 
@@ -444,10 +445,14 @@ li:nth-child(1) {
         font-size: 0.75rem;
         padding: 10px 20px;
         margin: 10px;
-        grid-template-columns: 1.75fr 1.75fr 0.25fr; /* fix me for smaller windows */
+        grid-template-columns: 0.5fr 1fr 1fr 0.25fr; /* fix me for smaller windows */
     }
 
     .date-added {
+        font-size: 0.5rem;
+    }
+
+    .playlist-song-mood {
         font-size: 0.5rem;
     }
 
@@ -461,6 +466,12 @@ li:nth-child(1) {
 
 /* Small devices (phones, 320px - 480px) */
 @media (max-width: 450px) {
+
+    .player-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
     .main-header h1 {
         font-size: 1.5rem;
     }
@@ -474,46 +485,57 @@ li:nth-child(1) {
     }
 
     .cd-player #cd-bar {
-        width:100%; 
-        height: 60%;
+        width: 160px;  
+        height: 160px;
         background-color: var(--cd-bar-color);
-        border-top-right-radius: 160px;
-        border-bottom-right-radius: 160px;
+        border-radius: 50%; 
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .cd-player #cd-bar::before {
         top: 50%; 
-        right: 5%; 
-        width: 95px; 
-        height: 95px; 
+        right: 1%;
+        width: 130px; 
+        height: 130px; 
     }
 
     .cd-player #cd-bar::after {
         top: 50%; 
-        right: 7px; 
-        width: 25px; 
-        height: 25px; 
+        right: 0%; 
+        width: 35px; 
+        height: 35px; 
+        background-color: rgba(255,255,255, 0.9);
+        border: 3px solid var(--cd-bar-color); 
     }
 
     .player-buttons {
-        gap: 15px;
-        top: 50%; 
-        left: 2%;
+        flex-direction: row;
+        gap: 30px;
+        top: 130%; 
+        left:15%;
     }
 
     .player-buttons button {
         font-size: 0.65rem;
+        color: var(--cd-bar-color);
     }
     
     .player-buttons .play-button {
-        font-size: 1.15rem;
+        font-size: 1.5rem;
+        color: var(--cd-bar-color);
+    }
+    .songs-container {
+        width: 90%;
+        padding-top: 45px;
+       
     }
     
     .song-info {
         height: 20%;
-        width: 80%;
-        border: 2px solid orange;
+        width: 95%;
     }
     
     .song-info .song-title {
@@ -521,32 +543,40 @@ li:nth-child(1) {
     }
     
     .song-info .song-artist {
-        font-size: 0.65rem;
+        font-size: 0.85rem;
     
     }
 
+    .playlist-title {
+        font-size: 0.75rem;
+        width: 95%;
+        font-weight: 600;
+        text-align: left;
+        margin-bottom: -5%;
+        padding-top: 25px;
+        
+    }
+
     .playlist-container {
-        width: 80%;
-        border: 2px solid red;
+        width: 95%;
+
     }
     
     .playlist-icons {
-        border: 2px solid green;
-        width: 80%;
+        width: 95%;
         gap: 20px;
     }
 
     .playlist-icons i {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
     }
 
     .playlist .song-item {
-        border: 2px solid pink;
         display: grid;
-        grid-template-columns: 2fr 1fr 0.5fr;
-        font-size: 0.45rem;
-        font-weight: 700;
-        gap: 10px;
+        grid-template-columns: 0.5fr 1fr 1fr 0.5fr;
+        font-weight: 600;
+        padding: 10px;
+        gap: 5px;
     }
     
     .playlist .song-item > * {
@@ -554,13 +584,69 @@ li:nth-child(1) {
         word-break: break-word; /* Breaks long words if necessary */
     }
 
-    .date-added {
-        font-size: 0.25rem;
+    .playlist-song-name {
+        font-size: 0.66rem;
     }
-    
 
-    
-    
+    .playlist-song-artist {
+        font-size: 0.6rem;
+    }
+
+    .date-added {
+        font-size: 0.4rem;
+    }
+
+    .playlist-song-mood {
+        font-weight: 800;
+        font-size: 0.4rem;
+    }
+
+    .popup-box {
+        height: 70%;
+        width: 90%;
+        border: 1px solid 
+    }
+
+    .popup-box .title {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding-top: 30px;
+        padding-bottom: 20px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+        
+    .popup-box label {
+        display: grid;
+        grid-template-columns: 0.4fr 1fr;
+        align-items: center;
+        font-size: 0.6rem;
+    }
+
+    .popup-box input[type=text], #mood-input {
+        font-size: 0.6rem;
+        margin: 0 20px;
+        border-bottom: 1px solid var(--cd-bar-color);
+    }
+
+
+    .popup-box input[type=file] {
+        font-size: 0.6rem;
+        width: 100%;
+    }
+
+    #preview-image {
+        width: 75px;
+        height: 75px;
+    }
+
+    #add-song-form input[type=submit] {
+        font-size: 0.7rem;
+        padding: 0;
+    }
+
+
 
 }
 
