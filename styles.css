@@ -234,14 +234,14 @@ body {
 .playlist .song-item {
     padding: 10px 40px;
     display: grid;
-    grid-template-columns: 2fr 1.5fr 0.5fr;
+    grid-template-columns: 0.7fr 1.75fr 1.5fr 0.5fr;
     font-size: 1.05rem;
     text-align: left;
     margin: 15px;
     font-weight: 700;
 }
 
-.playlist-song-name, .playlist-song-artist, .date-added {
+.playlist-song-name, .playlist-song-artist, .date-added, .playlist-song-mood {
   display: flex;
   align-items: center; 
 }
@@ -252,8 +252,12 @@ body {
 
 .date-added {
     font-size: 0.75rem;
-    padding-top: 5px; /* FIXME: adjust so text is centered */
+    padding-top: 5px; 
     color: var(--header-color);
+}
+
+.playlist-song-mood {
+    font-size: 0.6rem;
 }
 
 
@@ -299,37 +303,68 @@ li:nth-child(1) {
     z-index: 1000;
 }
 
-.add-song-form {
+.popup-box {
     background: var(--background-color);
     width: 40%;
-    height: 55%;
-    border-radius: 10px;
+    height: 68%;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    gap: 15px;
 }
 
-.add-song-form .title {
-    color: var(--text-color);
-    font-weight: 700;
-    font-size: 1.65rem;
-    padding-bottom: 40px;
-    padding-top: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
+.popup-box .title {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
 
+.popup-box label {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 20px;
 
-.add-song-form input {
-    border: 4px solid var(--cd-bar-color);
-    padding: 20px 10px;
+}
+
+.popup-box input[type=text], #mood-input {
+    border: none;
+    border-bottom: 2px solid rgba(249, 68, 126, 0.5);
+    padding: 10px 10px;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 0.8rem;
     font-family: var(--font-family);
-    border-radius: 10px;
 }
+
+.popup-box input::placeholder {
+    color: var(--text-color);
+}
+
+.popup-box input:focus, .mood-input:focus {
+    outline: none;
+    border: none;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+
+.mood-input {
+    outline: none;
+    font-size: 1rem;
+    background-color: var(--background-color);
+}
+
+.popup-box input[type=file] {
+    border: none;
+    padding: 10px 10px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    font-family: var(--font-family);
+}
+
 
 #image-preview {
     margin: 10px 0;
@@ -341,7 +376,21 @@ li:nth-child(1) {
     height: 150px;
     border-radius: 8px;
     object-fit: cover;
-    border: 2px solid #ddd;
+}
+
+#add-song-form input[type=submit] {
+    background-color: var(--background-color);
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(249, 68, 126, 0.5);
+    padding: 20px 0;
+}
+
+#add-song-form input[type=submit]:hover {
+    color: var(--primary-color);
 }
 
 

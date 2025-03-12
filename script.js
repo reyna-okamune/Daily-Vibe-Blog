@@ -4,16 +4,16 @@ let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
         title: "Conceited",
         artist: "SZA",
         img: "album-covers/SZA_SOS.png",
-        // src: "mp3-files/groovy-ambient-funk-201745.mp3",
-        dateAdded: "2/14/2025"
+        dateAdded: "2/14/2025",
+        mood: "(；⌣̀_⌣́)"
     },
     {
         id: 1,
         title: "Boy's a Liar",
         artist: "Pinkpantheress",
         img: "album-covers/Pinkpantheress_Boys_A_Liar.jpg",
-        // src: "mp3-files/once-in-paris-168895.mp3",
-        dateAdded: "2/15/2025"
+        dateAdded: "2/15/2025",
+        mood: "(；⌣̀_⌣́)"
 
     },
     {
@@ -21,8 +21,8 @@ let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
         title: "Close To You",
         artist: "Gracie Abrams",
         img: "album-covers/Gracie_Abrams_Close_To_You.jpg",
-        // src: "mp3-files/order-99518.mp3",
-        dateAdded: "2/16/2025"
+        dateAdded: "2/16/2025",
+        mood: "(；⌣̀_⌣́)"
     }
 ];
 
@@ -76,6 +76,10 @@ const renderSongs = () => {
             const songItem = document.createElement("li");
             songItem.classList.add("song-item");
 
+            const songMood = document.createElement("p");
+            songMood.classList.add("playlist-song-mood");
+            songMood.textContent = song.mood;
+
             const songName = document.createElement("p");
             songName.classList.add("playlist-song-name");
             songName.textContent = song.title;
@@ -88,6 +92,7 @@ const renderSongs = () => {
             songDateAdded.classList.add("date-added");
             songDateAdded.textContent = song.dateAdded;
 
+            songItem.appendChild(songMood);
             songItem.appendChild(songName);
             songItem.appendChild(songArtist);
             songItem.appendChild(songDateAdded);
