@@ -1,36 +1,10 @@
 let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
-    {
-        id: 0,
-        title: "Conceited",
-        artist: "SZA",
-        img: "album-covers/SZA_SOS.png",
-        dateAdded: "2/14/2025",
-        mood: "(；⌣̀_⌣́)"
-    },
-    {
-        id: 1,
-        title: "Boy's a Liar",
-        artist: "Pinkpantheress",
-        img: "album-covers/Pinkpantheress_Boys_A_Liar.jpg",
-        dateAdded: "2/15/2025",
-        mood: "(；⌣̀_⌣́)"
-
-    },
-    {
-        id: 2,
-        title: "Close To You",
-        artist: "Gracie Abrams",
-        img: "album-covers/Gracie_Abrams_Close_To_You.jpg",
-        dateAdded: "2/16/2025",
-        mood: "(；⌣̀_⌣́)"
-    }
 ];
 
 
 let userData = {
     songs: [...allSongs],
-    currentSong: allSongs[1],
-    songCurrentTime: 0,
+    currentSong: allSongs[0],
     isPlaying: false
   };
 
@@ -166,11 +140,65 @@ popupContainer.addEventListener("click", (e) => {
 const addSongForm = document.getElementById("add-song-form");
 const placeholderImage = "album-covers/empty_album_cover.png";
 
-/* addSongForm.addEventListener("submit", (e) => {
-    e.preventDefault(); // prevent page refresh
-    // Hide the pop-up
-    popupContainer.style.display = "none";
-}); */
+if (addSongForm) {
+    addSongForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // prevent page refresh
+
+        // get input values
+        const titleInput = document.getElementById("song-name-input").value.trim();
+        const artistInput = document.getElementById("song-artist-input").value.trim();
+        const moodInput = document.getElementById("mood-input").value;
+        const imageInput = document.getElementById("song-img-input").files[0];
+
+        // ensure all fields filled out
+        if (!titleInput || !artistInput || !moodInput) {
+            alert("Please fill out all fields before submitting song!");
+            return;
+        }
+        // getting current date
+        const date = new Date();
+        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+
+        // handling image upload
+        let songImage = placeholderImage;
+
+        if (imageInput) {
+            const reader = new FileReader();
+            reader.onload = e.target.result;
+            saveNewSong(songImage);
+        } else {
+            saveNewSong(songImage);
+        }
+
+        function saveNewSong(imageSrc) {
+            const newSong = {
+                id: allSongs.length,
+                title: titleInput,
+                artist: artistInput,
+                img: imageSrc, 
+                dateAdded: formattedDate,
+                mood: moodInput
+            };
+
+            // add new song
+            allSongs.push(newSong);
+            localStorage.setItem("allSongs", JSON.stringify(allSongs));
+
+            // re-render songs
+            renderSongs();
+
+            // Hide the pop-up
+            popupContainer.style.display = "none";
+
+            // reset form fields
+            addSongForm.reset();
+            previewImage.src = placeholderImage; 
+
+        }
+    });
+} else {
+    console.error("add-song-form not found in the DOM!");
+}
 
 // Image Upload Preview Handler
 const imageInput = document.getElementById("song-img-input");

@@ -232,6 +232,15 @@ body {
     margin: 0;
 }
 
+.playlist-title {
+    display: flex;
+    font-size: 0.85rem;
+    font-weight: 600;
+    gap: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
 .playlist .song-item {
     padding: 10px 40px;
     display: grid;
