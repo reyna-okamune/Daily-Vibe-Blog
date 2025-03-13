@@ -4,7 +4,7 @@ let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
 
 let userData = {
     songs: [...allSongs],
-    currentSong: allSongs[0],
+    currentSong: null,
     isPlaying: false
   };
 
@@ -41,10 +41,11 @@ const renderSongs = () => {
 
         const noSongMessage = document.createElement("p");
         noSongMessage.classList.add("playlist-song-name");
-        noSongMessage.textContent = "No song added yet!";
+        noSongMessage.textContent = "No songs!";
 
         noSongItem.appendChild(noSongMessage);
         playlist.appendChild(noSongItem);
+
     } else {
         allSongs.forEach((song, index) => {
             const songItem = document.createElement("li");
@@ -71,8 +72,6 @@ const renderSongs = () => {
             deleteButton.style.cursor = "pointer";
             deleteButton.addEventListener("click", () => deleteSong(index));
 
-
-
             songItem.appendChild(songMood);
             songItem.appendChild(songName);
             songItem.appendChild(songArtist);
@@ -81,6 +80,9 @@ const renderSongs = () => {
             playlist.appendChild(songItem);
         }) 
     };
+
+    // set player display with the current song 
+    setCurrentSong();
 }
 
 // for current playing song
@@ -93,8 +95,8 @@ const setPlayerDisplay = () => {
     const currentArtist = userData?.currentSong?.artist;
     const albumCover = userData?.currentSong?.img;
 
-    playingSong.textContent = currentTitle ? currentTitle : "Song Name";
-    playingArtist.textContent = currentArtist ? currentArtist : "Artist Name";
+    playingSong.textContent = currentTitle ? currentTitle : "Current Song Title";
+    playingArtist.textContent = currentArtist ? currentArtist : "Current Artist";
     playingCD.classList.add("paused"); // ensure cd does not rotate until user starts song
     if (albumCover) {
         playingCD.style.setProperty("--album-cover", `url('${albumCover}')`);
@@ -102,6 +104,19 @@ const setPlayerDisplay = () => {
         playingCD.style.setProperty("--album-cover", "url(album-covers/empty_album_cover.png)");
     }
 
+
+}
+
+// setting the user's current song
+const setCurrentSong = () => {
+    // we want to set current song to the most recently added song
+    if (allSongs.length >= 1) {
+        userData.currentSong = allSongs[allSongs.length - 1];
+    } else {
+        userData.currentSong = null;
+    }
+
+    setPlayerDisplay();
 }
 
 // highlight current playing song 
@@ -134,8 +149,6 @@ const deleteSong = (index) => {
 };
 
 /* event listeners */
-
-
 playButton.addEventListener("click", () => togglePlayPause());
 
 // Show Pop Up Add Form when Add Icon Clicked
@@ -178,8 +191,12 @@ if (addSongForm) {
 
         if (imageInput) {
             const reader = new FileReader();
-            reader.onload = e.target.result;
-            saveNewSong(songImage);
+            reader.onload = function (event) {
+                songImage = event.target.result;
+                saveNewSong(songImage);
+            };
+            reader.readAsDataURL(imageInput);
+            
         } else {
             saveNewSong(songImage);
         }
@@ -239,6 +256,5 @@ imageInput.addEventListener("change", (e) => {
 
 
 // function calls
-setPlayerDisplay();
 renderSongs();
 

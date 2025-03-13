@@ -244,7 +244,7 @@ body {
 .playlist .song-item {
     padding: 10px 40px;
     display: grid;
-    grid-template-columns: 0.5fr 1.5fr 1.25fr 0.5fr 0.2fr;
+    grid-template-columns: 0.7fr 2fr 1.5fr 0.2fr 0.2fr;
     font-size: 1.05rem;
     text-align: left;
     margin: 15px;
@@ -260,6 +260,9 @@ body {
     color: var(--primary-color);
 }
 
+.date-added {
+    font-size: 0.8rem;
+}
 
 .playlist-song-mood {
     font-size: 0.8rem;
@@ -586,7 +589,7 @@ li:nth-child(1) {
 
     .playlist .song-item {
         display: grid;
-        grid-template-columns: 0.5fr 1fr 1fr 0.5fr;
+        grid-template-columns: 0.5fr 1fr 1fr 0.75fr 0.1fr;
         font-weight: 600;
         padding: 10px;
         gap: 5px;
@@ -598,11 +601,11 @@ li:nth-child(1) {
     }
 
     .playlist-song-name {
-        font-size: 0.66rem;
+        font-size: 0.45rem;
     }
 
     .playlist-song-artist {
-        font-size: 0.6rem;
+        font-size: 0.45rem;
     }
 
     .date-added {
@@ -613,6 +616,13 @@ li:nth-child(1) {
         font-weight: 800;
         font-size: 0.4rem;
     }
+
+    .delete-button {
+        padding-left: 0;
+        padding-top: 5px;
+    }
+
+    
 
     .popup-box {
         height: 70%;
