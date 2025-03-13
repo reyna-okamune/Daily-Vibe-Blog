@@ -46,7 +46,7 @@ const renderSongs = () => {
         noSongItem.appendChild(noSongMessage);
         playlist.appendChild(noSongItem);
     } else {
-        allSongs.forEach((song) => {
+        allSongs.forEach((song, index) => {
             const songItem = document.createElement("li");
             songItem.classList.add("song-item");
 
@@ -66,11 +66,18 @@ const renderSongs = () => {
             songDateAdded.classList.add("date-added");
             songDateAdded.textContent = song.dateAdded;
 
+            const deleteButton = document.createElement("i");
+            deleteButton.classList.add("fa-solid", "fa-xmark", "delete-button");
+            deleteButton.style.cursor = "pointer";
+            deleteButton.addEventListener("click", () => deleteSong(index));
+
+
+
             songItem.appendChild(songMood);
             songItem.appendChild(songName);
             songItem.appendChild(songArtist);
             songItem.appendChild(songDateAdded);
-
+            songItem.appendChild(deleteButton);
             playlist.appendChild(songItem);
         }) 
     };
@@ -118,6 +125,13 @@ const togglePlayPause = () => {
         userData.isPlaying = false;
     }
 }
+
+// delete song function
+const deleteSong = (index) => {
+    allSongs.splice(index, 1); 
+    localStorage.setItem("allSongs", JSON.stringify(allSongs)); 
+    renderSongs(); 
+};
 
 /* event listeners */
 
