@@ -39,10 +39,15 @@ const renderSongs = () => {
         const noSongItem = document.createElement("li");
         noSongItem.classList.add("song-item");
 
+        const noSongMood = document.createElement("p");
+        noSongMood.classList.add("playlist-song-mood");
+        noSongMood.textContent = "(｡˃ ᵕ ˂ )♡";
+
         const noSongMessage = document.createElement("p");
         noSongMessage.classList.add("playlist-song-name");
-        noSongMessage.textContent = "No songs!";
+        noSongMessage.textContent = "";
 
+        noSongItem.appendChild(noSongMood);
         noSongItem.appendChild(noSongMessage);
         playlist.appendChild(noSongItem);
 
@@ -95,8 +100,8 @@ const setPlayerDisplay = () => {
     const currentArtist = userData?.currentSong?.artist;
     const albumCover = userData?.currentSong?.img;
 
-    playingSong.textContent = currentTitle ? currentTitle : "Current Song Title";
-    playingArtist.textContent = currentArtist ? currentArtist : "Current Artist";
+    playingSong.textContent = currentTitle ? currentTitle : "Welcome!";
+    playingArtist.textContent = currentArtist ? currentArtist : "Get Started By Clicking the Add Button!";
     playingCD.classList.add("paused"); // ensure cd does not rotate until user starts song
     if (albumCover) {
         playingCD.style.setProperty("--album-cover", `url('${albumCover}')`);
@@ -121,7 +126,26 @@ const setCurrentSong = () => {
 
 // highlight current playing song 
 const highlightCurrentSong = () => {
+
+    const songObjects = document.querySelectorAll(".song-item");
+    console.log("Found song items:", songObjects);
+
+    const currentTitle = userData?.currentSong?.title;
+
+    songObjects.forEach((song) => {
+        const titleElement = song.querySelector(".playlist-song-name"); 
+        if (!titleElement) return;
+
+        const title = titleElement.textContent;
+
+        if (title === currentTitle) {
+            song.classList.add("active-song"); 
+        } else {
+            song.classList.remove("active-song"); 
+        }
+    });
 }
+
 
 // toggling between pause and play function
 const togglePlayPause = () => {
@@ -134,11 +158,14 @@ const togglePlayPause = () => {
         cdBar.classList.add("paused"); // pause cd rotation 
         userData.isPlaying = true;
     } else { 
-        // audio.pause();
         playButton.innerHTML = '<i class="fa-solid fa-circle-pause"></i>';
         cdBar.classList.remove("paused"); // resume cd rotation
         userData.isPlaying = false;
     }
+
+    highlightCurrentSong();
+
+
 }
 
 // delete song function

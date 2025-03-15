@@ -239,12 +239,13 @@ body {
     gap: 10px;
     padding-left: 10px;
     padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .playlist .song-item {
     padding: 10px 40px;
     display: grid;
-    grid-template-columns: 0.7fr 2fr 1.5fr 0.2fr 0.2fr;
+    grid-template-columns: 0.7fr 1.75fr 1.5fr 0.5fr 0.2fr;
     font-size: 1.05rem;
     text-align: left;
     margin: 15px;
@@ -278,11 +279,12 @@ body {
     color: var(--header-color);
 }
 
-/* FIXME: Hard Coded Highlight for current song */
-li:nth-child(1) {
-    color: black;
-
+.active-song {
+    border-radius: 5px;
+    background-color: rgba(249, 68, 126, 0.1); 
+    
 }
+
 
 /* SCROLL BAR STYLING */
 /* width */
@@ -559,7 +561,7 @@ li:nth-child(1) {
     }
     
     .song-info .song-artist {
-        font-size: 0.85rem;
+        font-size: 0.55rem;
     
     }
 
@@ -619,7 +621,7 @@ li:nth-child(1) {
 
     .delete-button {
         padding-left: 0;
-        padding-top: 5px;
+        padding-top: 0;
     }
 
     
