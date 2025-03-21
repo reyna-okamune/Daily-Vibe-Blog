@@ -1,6 +1,21 @@
-let allSongs = JSON.parse(localStorage.getItem("allSongs")) || [
-];
+import { loadSongs, saveSong, deleteSong as deleteFirebaseSong, setupRealtimeListener } from './firebase-functions.js';
 
+let allSongs = [];
+
+// Add at the top of script.js
+const userId = 'user123'; // Replace this with actual user authentication later
+
+// Initial load of songs
+loadSongs(userId).then(songs => {
+  allSongs = songs;
+  renderSongs();
+});
+
+// Set up real-time updates
+setupRealtimeListener(userId, (updatedSongs) => {
+  allSongs = updatedSongs;
+  renderSongs();
+});
 
 let userData = {
     songs: [...allSongs],
@@ -169,10 +184,14 @@ const togglePlayPause = () => {
 }
 
 // delete song function
-const deleteSong = (index) => {
-    allSongs.splice(index, 1); 
-    localStorage.setItem("allSongs", JSON.stringify(allSongs)); 
-    renderSongs(); 
+const deleteSong = async (index) => {
+  try {
+    const songId = allSongs[index].songId;
+    allSongs = await deleteFirebaseSong(userId, songId);
+    renderSongs();
+  } catch (error) {
+    console.error("Error deleting song:", error);
+  }
 };
 
 /* event listeners */
@@ -228,30 +247,24 @@ if (addSongForm) {
             saveNewSong(songImage);
         }
 
-        function saveNewSong(imageSrc) {
+        async function saveNewSong(imageSrc) {
             const newSong = {
-                id: allSongs.length,
                 title: titleInput,
                 artist: artistInput,
-                img: imageSrc, 
+                img: imageSrc,
                 dateAdded: formattedDate,
                 mood: moodInput
             };
 
-            // add new song
-            allSongs.push(newSong);
-            localStorage.setItem("allSongs", JSON.stringify(allSongs));
-
-            // re-render songs
-            renderSongs();
-
-            // Hide the pop-up
-            popupContainer.style.display = "none";
-
-            // reset form fields
-            addSongForm.reset();
-            previewImage.src = placeholderImage; 
-
+            try {
+                allSongs = await saveSong(userId, newSong);
+                renderSongs();
+                popupContainer.style.display = "none";
+                addSongForm.reset();
+                previewImage.src = placeholderImage;
+            } catch (error) {
+                console.error("Error saving new song:", error);
+            }
         }
     });
 } else {
